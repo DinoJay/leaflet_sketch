@@ -1,16 +1,25 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-import styles from './app.scss';
 import React from 'react';
-
 import Map from './components/Map';
 
-console.log('app is initialized');
+import Profile from './components/Profile';
+import storyboardSrc from './components/styles/storyboard.png';
+
 
 export default class App extends React.Component {
   render() {
     return (
       <div>
-        <Map />
+        <h1>Authoring Environment</h1>
+        <div className="row">
+          <Map />
+        </div>
+        <div className="row">
+          <h2>Storyboard</h2>
+          <img src={storyboardSrc} className="" alt="alt" />
+        </div>
+        <div className="row">
+          <Profile />
+        </div>
       </div>
     );
   }

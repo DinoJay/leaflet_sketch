@@ -1,8 +1,16 @@
 import leaflet from 'leaflet';
 import React from 'react';
 // import ReactDOM from 'react-dom';
+import style from './styles/map/map.scss';
 
-import style from './styles/map.scss';
+import bingo from './styles/minigames/bingo.png';
+import crossword from './styles/minigames/crossword.png';
+import hangman from './styles/minigames/hangman.png';
+import jigsaw from './styles/minigames/jigsaw.png';
+import memory from './styles/minigames/memory.png';
+import numberline from './styles/minigames/numberline.png';
+
+import locationViewSrc from './styles/map/location_view.png';
 
 class Map extends React.Component {
   static propTypes() {
@@ -23,8 +31,19 @@ class Map extends React.Component {
     }).addTo(mymap);
 
 
+    const icon = leaflet.icon({
+      iconUrl: memory,
+      // shadowUrl: 'leaf-shadow.png',
+
+      iconSize: [50, 50], // size of the icon
+      shadowSize: [50, 64], // size of the shadow
+      iconAnchor: [0, 0], // point of the icon which will correspond to marker's location
+      shadowAnchor: [4, 62],  // the same for the shadow
+      popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
+    });
+
     this.props.schedule.forEach((s) => {
-      leaflet.marker(s.coord).addTo(mymap)
+      leaflet.marker(s.coord, { icon }).addTo(mymap)
                            .bindTooltip(`<b>${s.minigame}</b><br>
                                         <i>${s.task}</i><br>
                                         <small>${s.place}</small>`
@@ -34,13 +53,70 @@ class Map extends React.Component {
 
     const latlngs = this.props.schedule.map(s => s.coord);
     const polyline = leaflet.polyline(latlngs, { color: 'red' }).addTo(mymap);
-// zoom the map to the polyline
+    // zoom the map to the polyline
     mymap.fitBounds(polyline.getBounds());
+
+    // mymap.on('click', (e) => {
+    //   new leaflet.marker(e.latlng, { icon }).addTo(mymap);
+    // });
   }
 
   render() {
     return (
-      <div id={style.mapid} />
+      <div>
+        <div className="myrow">
+          <div className="col-md-8">
+            <div id={style.mapid} />
+          </div>
+          <div className="col-md-4">
+            <h2>Minigames</h2>
+            <div className="row">
+              <div>
+                <div className="col-md-3">
+                  <a id="carousel-selector-0">
+                    <img src={bingo} className="img-thumbnail" />
+                  </a>
+                </div>
+
+                <div className="col-md-3">
+                  <a id="carousel-selector-1">
+                    <img src={crossword} className="img-thumbnail" />
+                  </a>
+                </div>
+
+                <div className="col-md-3">
+                  <a id="carousel-selector-2">
+                    <img src={hangman} className="img-thumbnail" /></a>
+                </div>
+
+                <div className="col-md-3">
+                  <a id="carousel-selector-3">
+                    <img src={jigsaw} className="img-thumbnail" />
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div className="myrow">
+              <div className="col-md-3">
+                <a id="carousel-selector-4">
+                  <img src={memory} className="img-thumbnail" /></a>
+              </div>
+
+              <div className="col-md-3">
+                <a id="carousel-selector-5">
+                  <img src={numberline} className="img-thumbnail" /></a>
+              </div>
+            </div>
+
+            <div className="myrow">
+              <div className="col-md-12">
+                <h2>Location Info</h2>
+                <img src={locationViewSrc} className={style.locationInfo} />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     );
   }
 }

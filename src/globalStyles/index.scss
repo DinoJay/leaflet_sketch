@@ -1,0 +1,6 @@
+@import '~bootstrap/scss/bootstrap.scss';
+
+.myrow {
+  @extend .row;
+  margin-bottom: 20px;
+}
